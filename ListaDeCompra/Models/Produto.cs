@@ -2,7 +2,7 @@
 
 namespace ListaDeCompra.Models
 {
-    public class Produto
+    public class Produto 
     {
         [PrimaryKey, AutoIncrement]
 
