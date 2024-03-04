@@ -6,6 +6,7 @@
 
     <ContentPage.Resources>
         <Style TargetType="Label">
+            <setter Property="VerticalTextAlignment" Vale
             
         </Style>
     </ContentPage.Resources>
