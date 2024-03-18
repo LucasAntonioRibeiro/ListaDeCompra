@@ -10,6 +10,6 @@ namespace ListaDeCompra.Models
 
         public string Descricao {  get; set; }
         public double Quantidade { get; set; }
-        public string Preco { get; set; }
+        public double Preco { get; set; }
     }
 }
