@@ -13,8 +13,8 @@
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked"/>
-        <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked_Somar"/>
+        <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked_Somar"/>
+        <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked_Add"/>
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
@@ -41,13 +41,14 @@
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.ContextActions>
-                                <MenuItem Text="Remover" Clicked="MenuItem_Clicked"/>
+                                <MenuItem Text="Remover" Clicked="MenuItem_Clicked_Remover"/>
                             </ViewCell.ContextActions>
-                            <Grid RowDefinitions="Auto"
-                                  ColumnDefinitions="*, Auto, Auto">
+                            <Grid
+                                  ColumnDefinitions="3*, *, *, *">
                                 <Label Grid.Row="0" Grid.Column="0" Text="{Binding Descricao}"/>
                                 <Label Grid.Row="0" Grid.Column="1" Text="{Binding Quantidade}"/>
                                 <Label Grid.Row="0" Grid.Column="2" Text="{Binding Preco}"/>
+                                <Label Grid.Row="0" Grid.Column="3" Text="{Binding Total}"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

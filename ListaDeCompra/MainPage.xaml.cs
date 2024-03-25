@@ -6,7 +6,8 @@ namespace ListaDeCompra
     public partial class MainPage : ContentPage
     {
         ObservableCollection<Produto> lista_produtos = new ObservableCollection<Produto>();
-        private Produto p;
+        
+
 
         public MainPage()
         {
@@ -17,22 +18,22 @@ namespace ListaDeCompra
         private void ToolbarItem_Clicked_Somar(object sender, EventArgs e)
         {
             double soma = lista_produtos.Sum(i => (i.Preco * i.Quantidade));
-            string msg = $"o total é {soma:C}";
+            string msg = $"O total é {soma:C}";
             DisplayAlert("Somatoria" ,msg, "Fechar");
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             if (lista_produtos.Count == 0)
             {
-                Task.Run(async ()=>
+                
                 {
                     List<Produto> tmp = await App.Db.GetAll();
-                    foreach (var item in tmp)
+                    foreach (Produto p in tmp)
                     {
                         lista_produtos.Add(p);
                     }
-                });
+                };
             }
         }
         
@@ -41,21 +42,21 @@ namespace ListaDeCompra
 
         private async void ToolbarItem_Clicked_Add(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//NovoProduto");
+            await Navigation.PushAsync(new Views.NovoProduto2());
         }
 
-        private void txt_search_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txt_search_TextChanged(object sender, TextChangedEventArgs e)
         {
             string q = e.NewTextValue;
             lista_produtos.Clear();
-            Task.Run(async () =>
+            
             {
                 List<Produto> tmp = await App.Db.Search(q);
                 foreach (Produto p in tmp)
                 {
                     lista_produtos.Add(p);
                 }
-            });
+            };
             
         }
 
@@ -70,23 +71,33 @@ namespace ListaDeCompra
                  lista_produtos.Add(p);
                }             
             });
+            ref_carregando.IsRefreshing = false;
         }
 
         private void lst_produtos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            
+            Produto? p = e.SelectedItem as Produto;
+
+            Navigation.PushAsync(new Views.EditarProduto
+            {
+                BindingContext = p
+            });
         }
 
         private async void MenuItem_Clicked_Remover(object sender, EventArgs e)
         {
             try
             {
+                MenuItem selecionado = (MenuItem)sender;
+                Produto p = selecionado.BindingContext as Produto;
+
                 bool confirm = await DisplayAlert("tem certeza?", "Remover", "Sim", "Cancelar");
 
                 if (confirm)
                 {
                     await App.Db.Delete(1);
                     await DisplayAlert("Sucesso!", "Produto Removido", "OK");
+                    lista_produtos.Remove(p);
                 }
             }catch (Exception ex)
             {

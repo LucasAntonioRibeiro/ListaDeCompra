@@ -12,7 +12,7 @@ namespace ListaDeCompra
             {
                 if (_db == null)
                 {
-                    string path = path.Combine(
+                    string path = Path.Combine(
                         Environment.GetFolderPath(
                             Environment.SpecialFolder.LocalApplicationData
                            ), "banco_sqlite_compras.db3"
@@ -23,7 +23,7 @@ namespace ListaDeCompra
 
                 }// Fecha if verificando se _db é null
 
-        return _db;
+                return _db;
             }    
         }
         public App()
